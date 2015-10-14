@@ -17,15 +17,16 @@ func Concatenate(aStrings []string) string {
 	return oBuffer.String()
 }
 
-func UniqueId(iLength int) string {
+func RandomString(iLength int) string {
 	// Initialize
-	aLetters := []string("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	sUniqueId := make([]string, iLength)
+	sLetters := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	sRandomString := make([]byte, iLength)
 
 	// Loop through string letters
-	for iIndex := range iLength {
-		sUniqueId[iIndex] = aLetters[rand.Intn(len(aLetters))]
+	for iIndex := range sRandomString {
+		sRandomString[iIndex] = sLetters[rand.Int63() % int64(len(sLetters))]
 	}
 
-	return string(sUniqueId)
+	// Return
+	return string(sRandomString)
 }
