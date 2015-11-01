@@ -2,17 +2,15 @@ package network
 
 import (
 	"net"
-	"net/http"
 )
 
-func ValidateIPAddress(oRequest *http.Request, aAllowedIPAddresses []string) bool {
+func ValidateIPAddress(sIpAddress string, aAllowedIPAddresses []string) bool {
+	oIpAddress := net.ParseIP(sIpAddress)
 	for _, sAllowedIpAddress := range aAllowedIPAddresses {
 		_, oCIDR, oErr := net.ParseCIDR(sAllowedIpAddress)
 		if oErr != nil {
 			panic(oErr)
 		}
-		sIpAddress, _ := GetIpAddressAndPort(oRequest)
-		oIpAddress := net.ParseIP(sIpAddress)
 		if oCIDR.Contains(oIpAddress) {
 			return true
 		}
@@ -21,8 +19,8 @@ func ValidateIPAddress(oRequest *http.Request, aAllowedIPAddresses []string) boo
 	return false
 }
 
-func GetIpAddressAndPort(oRequest *http.Request) (string, string) {
-	sIp, sPort, oErr := net.SplitHostPort(oRequest.RemoteAddr)
+func GetIpAddressAndPort(sHostPort string) (string, string) {
+	sIp, sPort, oErr := net.SplitHostPort(sHostPort)
 	if oErr != nil {
 		panic(oErr)
 	}
