@@ -24,7 +24,7 @@ func RandomString(iLength int) string {
 
 	// Loop through string letters
 	for iIndex := range sRandomString {
-		sRandomString[iIndex] = sLetters[rand.Int63() % int64(len(sLetters))]
+		sRandomString[iIndex] = sLetters[rand.Int63n(int64(len(sLetters)))]
 	}
 
 	// Return
